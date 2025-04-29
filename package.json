@@ -1,13 +1,13 @@
 {
     "name": "migratable-json-document",
     "description": "persist versioned class instances as JSON documents",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "Ed Vinyard <ed@tzahk.com>",
     "homepage": "https://github.com/EdVinyard/migratable-json-document",
     "bugs": "https://github.com/EdVinyard/migratable-json-document/issues",
     "repository": {
         "type": "git",
-        "url": "https://github.com/EdVinyard/migratable-json-document"
+        "url": "git+https://github.com/EdVinyard/migratable-json-document.git"
     },
     "license": "Apache-2.0",
     "private": false,
@@ -24,7 +24,7 @@
         "test.doc": "npx literate-ts --replacements src $(find . -name '*.md')",
         "test": "yarn test.unit && yarn test.lint && yarn test.arch && yarn test.doc",
         "arch.graph": "npx depcruise src --output-type dot | dot -T svg > architecture-graph.svg",
-        "publish": "npm publish --access public --tag 0.1.0-alpha1"
+        "publish": "npm publish --access public"
     },
     "dependencies": {},
     "devDependencies": {
