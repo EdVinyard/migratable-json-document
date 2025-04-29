@@ -4,7 +4,7 @@
 
 - [Migratable JSON Document](#migratable-json-document)
   - [Use Cases](#use-cases)
-  - [Example](#example)
+  - [Quick Start](#quick-start)
     - [Version 1](#version-1)
     - [Version 2](#version-2)
 
@@ -35,10 +35,19 @@ In practice, this means that
 3. this technique is most useful in your data access layer; the classes you'll
    write to be upgradable will not make good Domain entities.
 
-## Example
+## Quick Start
+
+```sh
+npm i migratable-json-document
+
+## OR
+
+yarn add migratable-json-document
+```
 
 See [src/migratable-json-document.test.ts](src/migratable-json-document.test.ts)
-for an executable version of the following example code.
+for an executable version of the following example code, or read on for the
+incremental version with commentary.
 
 ### Version 1
 
