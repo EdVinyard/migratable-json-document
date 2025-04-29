@@ -8,7 +8,7 @@ import {
     serialize,
     UnregisteredVersion,
     UnregisteredType,
-} from './MigratableJsonDocument';
+} from './migratable-json-document';
 
 //#region EXAMPLE MIGRATABLE TYPE ===========================================
 

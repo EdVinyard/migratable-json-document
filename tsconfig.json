@@ -3,7 +3,6 @@
         "experimentalDecorators": true,
         "target": "es2020",
         "module": "commonjs",
-        "rootDir": "./",
         "outDir": "./build",
         "esModuleInterop": true,
         "strict": true,

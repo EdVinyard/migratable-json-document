@@ -1,10 +1,9 @@
 {
     "name": "migratable-json-document",
     "description": "persist versioned class instances as JSON documents",
-    "author": {
-        "name": "Ed Vinyard",
-        "email": "ed@tzahk.com"
-    },
+    "version": "0.1.0",
+    "author": "Ed Vinyard <ed@tzahk.com>",
+    "homepage": "https://github.com/EdVinyard/migratable-json-document",
     "license": "Apache-2.0",
     "scripts": {
         "build": "tsc",
@@ -12,8 +11,8 @@
         "test.lint": "npx eslint src",
         "test.unit": "jest src",
         "test.arch": "npx depcruise src --output-type err-long",
-        "test": "yarn test.unit && yarn test.lint && yarn test.arch",
-        "prestart": "yarn build",
+        "test.doc": "npx literate-ts --replacements src $(find . -name '*.md')",
+        "test": "yarn test.unit && yarn test.lint && yarn test.arch && yarn test.doc",
         "arch.graph": "npx depcruise src --output-type dot | dot -T svg > architecture-graph.svg"
     },
     "dependencies": {},
@@ -25,6 +24,7 @@
         "eslint": "^9",
         "globals": "^16",
         "jest": "^29",
+        "literate-ts": "^2.5.0",
         "ts-jest": "^29",
         "typescript": "^5",
         "typescript-eslint": "^8"

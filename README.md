@@ -29,14 +29,24 @@ In practice, this means that
 
 ### Version 1
 
-```typescript
-import { versionedSerializable, deserialize, serialize }
+First, define the versioned type in `widget.ts` as follows.
+
+<!-- #WidgetVersionOneDefinition-->
+<!-- verifier:reset -->
+<!-- verifier:include-node-module:migratable-json-document -->
+<!-- verifier:prepend-as-file:widget.ts -->
+```ts
+import {
+    versionedSerializable,
+    deserialize,
+    serialize,
+} from 'migratable-json-document';
 
 const WidgetTypeToken = Symbol.for('Widget');
 
-type Shape = 'circle' | 'triangle' | 'rectangle';
+export type Shape = 'circle' | 'triangle' | 'rectangle';
 
-interface FieldsOfV1 {
+export interface FieldsOfV1 {
     readonly shape: Shape;
 }
 
@@ -54,31 +64,38 @@ class WidgetV1 implements FieldsOfV1 {
 }
 
 //--------------------------------------------------------------------------
-const Widget = WidgetV1;     // CHANGE THIS EVERY TIME A NEW VERSION IS CREATED
-type WidgetType = WidgetV1;  // CHANGE THIS EVERY TIME A NEW VERSION IS CREATED
+export const Widget = WidgetV1;    // CHANGE THIS EVERY TIME A NEW VERSION IS CREATED
+export type WidgetType = WidgetV1; // CHANGE THIS EVERY TIME A NEW VERSION IS CREATED
 
 /**
  * Deserializer always produces the latest version of Widget, even when an
  * older serialized version is supplied.
  */
-const fromJSON = deserialize<WidgetType>(Widget.defaultValue);
+export const fromJSON = deserialize<WidgetType>(Widget.defaultValue);
 
 /** Serializer always produces latest version of Widget */
-const toJSON = serialize<WidgetType>(Widget);
+export const toJSON = serialize<WidgetType>(Widget);
 ```
 
-Later, you'd use the type as follows.
+Now that you've configured your `Widget` for serialization, you can later use
+`toJSON` and `fromJSON` to serialize and deserialize your `Widget` instances as
+follows.
 
-```typescript
-import { Widget, toJSON, fromJSON } from 'widget';
+<!-- #WidgetVersionOneUsage -->
+```ts
+import { Widget, toJSON, fromJSON } from './widget';
 
 // serialize
-const widgetOne = new Widget({ shape: 'circle' });
-const widgetOneJson = toJSON(w1);
+const widgetA = new Widget({ shape: 'circle' });
+const widgetAJson = toJSON(widgetA);
 
 
 // deserialize
-const widgetTwo = fromJSON(json);
+const widgetB = fromJSON(`{
+    __migratable_type: "WidgetV1",
+    __migratable_version: 1,
+    shape: "circle",
+}`);
 ```
 
 Notice:
@@ -86,88 +103,3 @@ Notice:
 1. A `Symbol` denotes the type for serialization and deserialization.
 
 ## Version 2
-
-
-```typescript
-/**
- * This token will mark every version of serializable Widget.
- */
-const WidgetTypeToken = Symbol.for('Widget');
-
-//--------------------------------------------------------------------------
-// V2
-//--------------------------------------------------------------------------
-type Color = 'red' | 'blue' | 'green';
-
-interface FieldsOfV2 extends FieldsOfV1 {
-    readonly shape: Shape;
-    readonly color: Color;
-}
-
-// NOTE: The advantage of using a separate version number as an argument to this
-// registration decorator (rather than the class name) is that the class can be
-// renamed at will without affecting the behavior of previously serialized data.
-@versionedSerializable(WidgetTypeToken, 2)
-class WidgetV2 implements FieldsOfV2 {
-    readonly shape: Shape;
-    readonly color: Color;                                     // New in v2!
-
-    constructor(state: FieldsOfV2) {
-        // for (const key in state) this[key] = state[key];
-        this.shape = state.shape;
-        this.color = state.color;
-    }
-
-    static defaultValue(): WidgetV2 {
-        return new WidgetV2({
-            shape: 'rectangle',
-            color: 'blue',
-        });
-    }
-
-    // NOTE: upgrade() is not defined in most recent version
-}
-
-//--------------------------------------------------------------------------
-// V1
-//--------------------------------------------------------------------------
-type Shape = 'circle' | 'triangle' | 'rectangle';
-
-interface FieldsOfV1 {
-    readonly shape: Shape;
-}
-
-@versionedSerializable(WidgetTypeToken, 1)
-class WidgetV1 implements FieldsOfV1, IUpgradeableTo<WidgetV2> {
-    readonly shape: Shape;
-
-    constructor(state: FieldsOfV1) {
-        this.shape = state.shape;
-    }
-
-    static defaultValue(): WidgetV1 {
-        return new WidgetV1({ shape: 'triangle' });
-    }
-
-    upgrade() {
-        return new WidgetV2({
-            ...this,
-            color: 'red',
-        });
-    }
-}
-
-//--------------------------------------------------------------------------
-const Widget = WidgetV2;     // CHANGE THIS EVERY TIME A NEW VERSION IS CREATED
-type WidgetType = WidgetV2;  // CHANGE THIS EVERY TIME A NEW VERSION IS CREATED
-
-/**
- * Deserializer always produces the latest version of Widget, even when an
- * older serialized version is supplied.
- */
-const fromJSON = deserialize<WidgetType>(Widget.defaultValue);
-
-/** Serializer always produces latest version of Widget */
-const toJSON = serialize<WidgetType>(Widget);
-```
-

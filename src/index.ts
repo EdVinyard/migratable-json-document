@@ -2,4 +2,4 @@ export {
     versionedSerializable,
     serialize,
     deserialize,
-} from "./MigratableJsonDocument";
+} from "./migratable-json-document";
