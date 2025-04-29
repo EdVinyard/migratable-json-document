@@ -4,7 +4,17 @@
     "version": "0.1.0",
     "author": "Ed Vinyard <ed@tzahk.com>",
     "homepage": "https://github.com/EdVinyard/migratable-json-document",
+    "bugs": "https://github.com/EdVinyard/migratable-json-document/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/EdVinyard/migratable-json-document"
+    },
     "license": "Apache-2.0",
+    "private": false,
+    "engines": {
+        "node": ">= 20.18.1 < 22"
+    },
+    "main": "build/index.js",
     "scripts": {
         "build": "tsc",
         "test.watch": "jest --watch src",
@@ -13,7 +23,8 @@
         "test.arch": "npx depcruise src --output-type err-long",
         "test.doc": "npx literate-ts --replacements src $(find . -name '*.md')",
         "test": "yarn test.unit && yarn test.lint && yarn test.arch && yarn test.doc",
-        "arch.graph": "npx depcruise src --output-type dot | dot -T svg > architecture-graph.svg"
+        "arch.graph": "npx depcruise src --output-type dot | dot -T svg > architecture-graph.svg",
+        "publish": "npm publish --access public --tag 0.1.0-alpha1"
     },
     "dependencies": {},
     "devDependencies": {
