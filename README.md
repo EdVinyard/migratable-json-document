@@ -1,9 +1,17 @@
 # Migratable JSON Document
 
+[![Node.js CI](https://github.com/EdVinyard/migratable-json-document/actions/workflows/node.js.yml/badge.svg)](https://github.com/EdVinyard/migratable-json-document/actions/workflows/node.js.yml)
+
+- [Migratable JSON Document](#migratable-json-document)
+  - [Use Cases](#use-cases)
+  - [Example](#example)
+    - [Version 1](#version-1)
+    - [Version 2](#version-2)
+
 This is a port of a JSON document versioning system first developed by Ed
 Vinyard for Python and MongoDB in 2012 to TypeScript.
 
-## Use Case
+## Use Cases
 
 1. You will store the serialized version of your class/type into, for example
    - a document in a document-oriented database, or
@@ -108,7 +116,7 @@ Notice:
 
 1. A `Symbol` denotes the type for serialization and deserialization.
 
-## Version 2
+### Version 2
 
 Later, you'll decide that it's time to update your _Widget_ to include new data,
 so you'll write a new class, `WidgetV2`.
