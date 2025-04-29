@@ -10,6 +10,7 @@
         "moduleResolution": "node",
         "resolveJsonModule": false,
         "skipLibCheck": false,
+        "declaration": true,
         "lib": [
             "ES2021.String",
             "es2020",

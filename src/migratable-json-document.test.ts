@@ -48,6 +48,11 @@ class WidgetV2 implements FieldsOfV2 {
         });
     }
 
+    toString() {
+        return `<widget in the shape of a ${this.shape} ` +
+            `and colored ${this.color}>`;
+    }
+
     // NOTE: upgrade() is not defined in most recent version
 }
 
@@ -70,6 +75,10 @@ class WidgetV1 implements FieldsOfV1, IUpgradeableTo<WidgetV2> {
 
     static defaultValue(): WidgetV1 {
         return new WidgetV1({ shape: 'triangle' });
+    }
+
+    toString() {
+        return `<widget in the shape of a ${this.shape}>`;
     }
 
     upgrade() {
